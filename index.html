@@ -66,6 +66,12 @@
         input[type="checkbox"] {
             accent-color: var(--primary-red);
         }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -73,7 +79,7 @@
     <!-- Header -->
     <header class="bg-white header-border sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
-            <!-- Navegação Esquerda (Acervo Removido) -->
+            <!-- Navegação Esquerda -->
             <nav class="hidden md:flex space-x-6 text-xs font-semibold uppercase tracking-widest">
                 <a href="#" class="hover:text-red-800">Artistas</a>
                 <a href="#" class="hover:text-red-800">Sobre Nós</a>
@@ -81,11 +87,11 @@
             </nav>
 
             <!-- Logo Central -->
-            <div class="text-3xl serif font-bold tracking-tighter text-red-900 text-center">
-                LOJÃO DO PASCOALZÃO
+            <div class="text-3xl serif font-bold tracking-tighter text-red-900 text-center uppercase">
+                Lojão do Pascoalzão
             </div>
 
-            <!-- Navegação Direita (Agendar Visita Removido) -->
+            <!-- Navegação Direita -->
             <div class="flex items-center space-x-6 text-xs font-semibold uppercase tracking-widest">
                 <a href="#" class="flex items-center gap-1 hover:text-red-800 text-gray-400 cursor-not-allowed">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -112,13 +118,7 @@
                     <h3 class="font-bold text-xs uppercase mb-3 text-red-900">Técnica</h3>
                     <div class="space-y-2 text-sm">
                         <label class="flex items-center gap-2 cursor-pointer hover:text-red-800">
-                            <input type="checkbox"> Cerâmica
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer hover:text-red-800">
                             <input type="checkbox"> Desenho
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer hover:text-red-800">
-                            <input type="checkbox"> Escultura
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer hover:text-red-800">
                             <input type="checkbox"> Fotografia
@@ -150,7 +150,13 @@
 
     <script>
         const obras = [
-            { nome: "ESTADO DE GESTO (53)", artista: "MIRIAN FERNANDES", preco: "R$ 8.000,00", placeholderColor: "#D1D1D1", aspect: "4/3" },
+            { 
+                nome: "ESTADO DE GESTO (53)", 
+                artista: "MIRIAN FERNANDES", 
+                preco: "R$ 8.000,00", 
+                img: "https://artsoul.nyc3.cdn.digitaloceanspaces.com/artworks/20924/XzBoWCZQj1g0wgn6qxWyA129012026122915.webp",
+                aspect: "4/3" 
+            },
             { nome: "NPT (NE PAS TOUCHER) #2", artista: "ANTONIO WOLFF", preco: "R$ 7.250,00", placeholderColor: "#EAEAEA", aspect: "3/4" },
             { nome: "FENDI E PIPOCA", artista: "JOSÉ GONÇALVES", preco: "R$ 7.800,00", placeholderColor: "#C5D3A3", aspect: "1/1" },
             { nome: "ITELVINO JAHN - ANGICO MACIÇO", artista: "ITELVINO JAHN", preco: "R$ 8.000,00", placeholderColor: "#A67B5B", aspect: "4/5" },
@@ -165,10 +171,13 @@
             document.getElementById('total-count').innerText = obras.length;
             grid.innerHTML = obras.map(obra => `
                 <div class="art-card">
-                    <div class="mb-4 overflow-hidden bg-white shadow-sm" style="aspect-ratio: ${obra.aspect};">
-                        <div class="w-full h-full flex items-center justify-center text-xs text-gray-400 font-light italic p-4 text-center" style="background-color: ${obra.placeholderColor}22; border: 1px solid ${obra.placeholderColor}44;">
-                            [Arte: ${obra.nome}]
-                        </div>
+                    <div class="image-container mb-4 overflow-hidden bg-white shadow-sm border border-gray-100" style="aspect-ratio: ${obra.aspect};">
+                        ${obra.img ? 
+                            `<img src="${obra.img}" alt="${obra.nome}" loading="lazy" onerror="this.style.display='none'; this.parentNode.innerHTML='[Erro ao carregar imagem]'">` : 
+                            `<div class="w-full h-full flex items-center justify-center text-xs text-gray-400 font-light italic p-4 text-center" style="background-color: ${obra.placeholderColor}22;">
+                                [Arte: ${obra.nome}]
+                            </div>`
+                        }
                     </div>
                     <div class="space-y-1">
                         <h4 class="text-xs font-bold text-red-900 uppercase">${obra.nome}</h4>
